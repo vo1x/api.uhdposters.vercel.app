@@ -1,9 +1,8 @@
 require("dotenv").config();
 
 const express = require("express");
-const app = express();
 const cors = require("cors");
-const apiRoutes = require("../routes/api");
+const app = express();
 
 app.use(
   cors({
@@ -12,6 +11,7 @@ app.use(
   })
 );
 
+const apiRoutes = require("../routes/api");
 app.use(express.json());
 
 app.use("/", apiRoutes);
