@@ -1,0 +1,10 @@
+const express = require("express");
+const router = express.Router();
+const mediaController = require("../controllers/mediaController");
+
+// Define routes
+router.get("/media/:mediaType/:mediaID", mediaController.getMediaDetails);
+router.get("/trending", mediaController.getTrending);
+router.get("/search", mediaController.getSearch);
+
+module.exports = router;
