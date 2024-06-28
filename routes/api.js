@@ -6,5 +6,6 @@ const mediaController = require("../controllers/mediaController");
 router.get("/media/:mediaType/:mediaID", mediaController.getMediaDetails);
 router.get("/trending", mediaController.getTrending);
 router.get("/search", mediaController.getSearch);
+router.get("/", mediaController.getRoot);
 
 module.exports = router;
