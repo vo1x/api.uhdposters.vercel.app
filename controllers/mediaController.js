@@ -59,3 +59,12 @@ exports.getSearch = async (req, res) => {
     res.status(500).json({ error: "Error fetching information." });
   }
 };
+
+exports.getRoot = async(req,res)=>{
+  try{
+    res.status(200).json("API is up and running");
+  }catch(error){
+    res.status(500).json("Error.");
+
+  }
+}
