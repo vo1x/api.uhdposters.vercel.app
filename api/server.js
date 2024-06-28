@@ -7,7 +7,7 @@ const apiRoutes = require("../routes/api");
 
 app.use(
   cors({
-    origin: "http://uhdposters.vercel.app",
+    origin: "https://uhdposters.vercel.app",
     optionsSuccessStatus: 200,
   })
 );
