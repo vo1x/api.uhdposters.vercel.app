@@ -60,11 +60,38 @@ exports.getSearch = async (req, res) => {
   }
 };
 
-exports.getRoot = async(req,res)=>{
-  try{
+exports.getRoot = async (req, res) => {
+  try {
     res.status(200).json("API is up and running");
-  }catch(error){
+  } catch (error) {
     res.status(500).json("Error.");
-
   }
-}
+};
+
+exports.findByID = async (req, res) => {
+  const { id } = req.query;
+
+  if (!id) {
+    return res.status(400).json({ error: "Missing id parameter" });
+  }
+
+  const url = `https://api.themoviedb.org/3/find/${id}?api_key=${apiKey}&external_source=imdb_id`;
+  try {
+    const { data } = await axios.get(url);
+    let results = [];
+    if (data) {
+      if (data.movie_results.length > 0) {
+        results = data.movie_results;
+      } else if (data.tv_results.length > 0) {
+        results = data.tv_results;
+      } else if (data.tv_episode_results.length > 0) {
+        results = data.tv_episode_results;
+      } else if (data.tv_season_results.length > 0) {
+        results = data.tv_season_results;
+      }
+    }
+    res.status(200).json(results);
+  } catch (error) {
+    res.status(500).json({ error: "Error fetching data" });
+  }
+};

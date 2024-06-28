@@ -11,6 +11,13 @@ app.use(
   })
 );
 
+// app.use(
+//   cors({
+//     origin: "http://localhost:5173",
+//     optionsSuccessStatus: 200,
+//   })
+// );
+
 const apiRoutes = require("../routes/api");
 app.use(express.json());
 
