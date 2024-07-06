@@ -21,6 +21,7 @@ const app = express();
 const allowedOrigins = [
   "https://uhdposters.vercel.app",
   "https://cloudfiler.vercel.app",
+  "http://localhost:5173",
 ];
 
 const corsOptions = {

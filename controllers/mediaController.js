@@ -54,7 +54,7 @@ exports.getSearch = async (req, res) => {
   const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${searchTerm}`;
   try {
     const { data } = await axios.get(url);
-    res.json(data.results);
+    res.json(data.results.filter((result) => result.media_type !== "person"));
   } catch (error) {
     res.status(500).json({ error: "Error fetching information." });
   }
