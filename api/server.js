@@ -1,4 +1,5 @@
 require("dotenv").config();
+import imageProxy from "../middleware/proxy";
 
 const express = require("express");
 const cors = require("cors");
@@ -28,6 +29,7 @@ const apiRoutes = require("../routes/api");
 app.use(express.json());
 
 app.use("/", apiRoutes);
+app.use("/tmdb", imageProxy);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
