@@ -43,7 +43,21 @@ exports.getTrending = async (req, res) => {
   const url = `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`;
   try {
     const { data } = await axios.get(url);
-    res.json(data.results);
+    const results = [];
+    data.results.forEach((result) =>
+      results.push({
+        backdrop_path: result.backdrop_path,
+        id: result.id,
+        title: result.title || result.name,
+        overview: result.overview,
+        poster_path: result.poster_path,
+        media_type: result.media_type,
+        adult: result.adult,
+        original_language: result.original_language,
+        release_date: result.release_date || result.first_air_date,
+      })
+    );
+    res.status(200).json(results);
   } catch (error) {
     res.status(500).json({ error: "Error fetching trending data." });
   }
@@ -54,7 +68,25 @@ exports.getSearch = async (req, res) => {
   const url = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=${searchTerm}`;
   try {
     const { data } = await axios.get(url);
-    res.json(data.results.filter((result) => result.media_type !== "person"));
+    const results = [];
+    data.results
+      .filter((result) => result.media_type !== "person")
+      .forEach((result) =>
+        results.push({
+          backdrop_path: result.backdrop_path,
+          id: result.id,
+          title: result.title || result.name,
+          original_name: result.original_name,
+          overview: result.overview,
+          poster_path: result.poster_path,
+          media_type: result.media_type,
+          adult: result.adult,
+          original_language: result.original_language,
+          release_date: result.release_date || result.first_air_date,
+        })
+      );
+
+    res.status(200).json(results);
   } catch (error) {
     res.status(500).json({ error: "Error fetching information." });
   }
@@ -78,18 +110,35 @@ exports.findByID = async (req, res) => {
   const url = `https://api.themoviedb.org/3/find/${id}?api_key=${apiKey}&external_source=imdb_id`;
   try {
     const { data } = await axios.get(url);
-    let results = [];
+    let filteredResults = [];
     if (data) {
       if (data.movie_results.length > 0) {
-        results = data.movie_results;
+        filteredResults = data.movie_results;
       } else if (data.tv_results.length > 0) {
-        results = data.tv_results;
+        filteredResults = data.tv_results;
       } else if (data.tv_episode_results.length > 0) {
-        results = data.tv_episode_results;
+        filteredResults = data.tv_episode_results;
       } else if (data.tv_season_results.length > 0) {
-        results = data.tv_season_results;
+        filteredResults = data.tv_season_results;
       }
     }
+    const results = [];
+    filteredResults
+      .filter((result) => result.media_type !== "person")
+      .forEach((result) =>
+        results.push({
+          backdrop_path: result.backdrop_path,
+          id: result.id,
+          title: result.title || result.name,
+          original_name: result.original_name,
+          overview: result.overview,
+          poster_path: result.poster_path,
+          media_type: result.media_type,
+          adult: result.adult,
+          original_language: result.original_language,
+          release_date: result.release_date || result.first_air_date,
+        })
+      );
     res.status(200).json(results);
   } catch (error) {
     res.status(500).json({ error: "Error fetching data" });
