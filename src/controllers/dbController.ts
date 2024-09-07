@@ -1,6 +1,8 @@
 import prisma from "../client";
 import { Request, RequestHandler, Response } from "express";
 
+import getTodayDate from "../utils/dateUtils";
+
 interface dbController {
   getSchedule: RequestHandler;
 }
@@ -9,7 +11,8 @@ const dbController = {
   async getSchedule(req: Request, res: Response) {
     try {
       console.log("Attempting to connect to database...");
-      const today = new Date().toISOString().split("T")[0];
+      const today = await getTodayDate();
+      console.log(today)
 
       const existingSchedule = await prisma.schedule.findFirst();
       console.log("Existing Schedule:", existingSchedule);
