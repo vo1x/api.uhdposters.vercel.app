@@ -2,11 +2,11 @@
   "name": "api.uhdposters.vercel.app",
   "version": "1.0.0",
   "description": "",
-  "main": "api/server.ts",
+  "main": "src/app.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bun run tsc",
-    "start": "bun run api/server.ts",
+    "start": "bun run src/app.ts",
     "dev": "nodemon",
     "postinstall": "prisma generate"
   },
