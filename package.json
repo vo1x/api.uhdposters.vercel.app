@@ -7,8 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "bun run tsc",
     "start": "bun run src/app.ts",
-    "dev": "nodemon",
-    "postinstall": "prisma generate"
+    "dev": "nodemon"
   },
   "author": "volx",
   "license": "ISC",
