@@ -1,6 +1,5 @@
 import axios from "axios";
 import { RequestHandler } from "express";
-import prisma from "../client";
 
 interface MediaController {
   getMediaDetails: RequestHandler;
@@ -171,8 +170,6 @@ const mediaController: MediaController = {
       res.status(500).json({ error: "Error fetching data" });
     }
   },
-
-
 };
 
 export default mediaController;
