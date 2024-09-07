@@ -1,9 +1,11 @@
 require("dotenv").config();
-import imageProxy from "../middleware/proxy";
+import imageProxy from "./middleware/proxy";
+import Express from "express";
 
-const express = require("express");
-const cors = require("cors");
-const app = express();
+import cors from "cors";
+import router from "./routes/api";
+
+const app = Express();
 
 const allowedOrigins = [
   "https://uhdposters.vercel.app",
@@ -13,7 +15,7 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: function (origin, callback) {
+  origin: function (origin: any, callback: any) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
@@ -25,10 +27,9 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-const apiRoutes = require("../routes/api");
-app.use(express.json());
+app.use(Express.json());
 
-app.use("/", apiRoutes);
+app.use("/", router);
 app.use("/tmdb", imageProxy);
 
 const PORT = process.env.PORT || 5000;
