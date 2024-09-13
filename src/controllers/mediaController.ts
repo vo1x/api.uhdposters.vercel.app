@@ -24,6 +24,23 @@ interface QueryResult {
 
 const apiKey = process.env.TMDB_API_KEY;
 
+const fetchProviders = async (mediaType: string, mediaId: string) => {
+  const url = `https://api.themoviedb.org/3/${mediaType}/${mediaId}/watch/providers?api_key=${apiKey}`;
+  try {
+    const result = await fetch(url).then((data) => data.json());
+    const { link, ...filteredResults } = result.results?.US;
+    return Object.keys(filteredResults).map((ownership) => ({
+      ownershipType: ownership,
+      providers: filteredResults[ownership].map((provider: any) => ({
+        name: provider.provider_name,
+        logoPath: provider.logo_path,
+      })),
+    }));
+  } catch (error: any) {
+    return { error: "Error fetching data" };
+  }
+};
+
 const mediaController: MediaController = {
   async getMediaDetails(req, res) {
     const { mediaType, mediaID } = req.params;
@@ -56,6 +73,7 @@ const mediaController: MediaController = {
         seasons: info.seasons,
         status: info.status,
         external_ids: info.external_ids,
+        providers: (await fetchProviders(mediaType, mediaID)) ?? null,
       };
 
       res.json(filteredInfo);
