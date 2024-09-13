@@ -37,7 +37,8 @@ const fetchProviders = async (mediaType: string, mediaId: string) => {
       })),
     }));
   } catch (error: any) {
-    return { error: "Error fetching data" };
+    console.log({ error: "Error fetching data" });
+    return [];
   }
 };
 
@@ -57,9 +58,12 @@ const mediaController: MediaController = {
         runtime: info.runtime,
         backdrop_path: info.backdrop_path,
         posters: info.images.posters,
-        videos: info.videos.results.filter(
-          (result: any) => result.type === "Trailer"
-        ),
+        trailer:
+          `https://youtube.com/embed/${
+            info.videos.results.filter(
+              (result: any) => result.type === "Trailer"
+            )[0].key
+          }` || null,
         in_production: info.in_production,
         languages: info.languages,
         last_air_date: info.last_air_date,
