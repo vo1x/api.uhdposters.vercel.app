@@ -62,7 +62,7 @@ const mediaController: MediaController = {
           `https://youtube.com/embed/${
             info.videos.results.filter(
               (result: any) => result.type === "Trailer"
-            )[0].key
+            )[0]?.key
           }` || null,
         in_production: info.in_production,
         languages: info.languages,
